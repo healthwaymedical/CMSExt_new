@@ -2,6 +2,12 @@
 
   <div class="modal-header">
     <h4 class="modal-title pull-left"> {{ title }}</h4>
+    <div class="alert alert-danger" role="alert" *ngIf="alert">
+        {{alertMessage}}
+       </div>
+       <div class="alert alert-success" role="alert"  *ngIf="success">
+        {{alertMessage}}
+      </div>
     <button type="button" class="close pull-right" aria-label="Close" (click)="closeModalBox()"><span aria-hidden="true">&times;</span></button>
 </div>
 
@@ -19,16 +25,20 @@
                         </ng-select>
                         </div>
                         <div class="col-md-4 pb-0">
+
+                            
                             <label>Appointment Date</label>
+                            
                             <input type="text"
                             class="form-control"
                             placeholder="DD/MM/YYYY"
-                            class="form-control form-control-sm"
+                            class="form-control form-control-sm datepicker"
                             [bsConfig]="bsConfig"
                             (bsValueChange)="onchangeAppointmentDate($event)"
                             bsDatepicker
                             formControlName="appointmentDate"
                             >
+                          
                             <errors [control]="appointmentForm.get('appointmentDate')"></errors>
                         </div>
                         <div class="col-md-4 pb-0">
@@ -36,10 +46,9 @@
                             <ng-select class="p-0 form-control form-control-sm custom-select"
                              [items]="availableTimesDropDownList"   [hideSelected]="true" 
                              placeholder="Select Time" (change)="onChangeTime($event)" 
-                             [formControlName]="startTime"
                              >
                         </ng-select>
-                            <errors [control]="appointmentForm.get('appointmentDate')"></errors>
+                            <errors [control]="appointmentForm.get('appointmentTime')"></errors>
                         </div>
                     </div>
                     <div class="row">
@@ -72,12 +81,12 @@
                             <label>Identification Type</label>
                         <ng-select class="p-0 form-control form-control-sm custom-select  custom-select-extra-medium-width" [items]="idTypes"
                      bindLabel="label" bindValue="value" placeholder="Select Identification Type" 
-                        value="idType"  [clearable]=false>
+                        value="idType" formControlName="idType"  [clearable]=false> formControlName="name"
                     </ng-select>
                         </div>
                         <div class="col-md-4 pb-0">
                             <label>Identification Number</label>
-                            <input class="form-control form-control-sm"   placeholder="NRIC/FIN NO." />
+                            <input class="form-control form-control-sm" formControlName="idNumber"   placeholder="NRIC/FIN NO." />
                         </div>
                     </div>
           
@@ -102,8 +111,9 @@
                         </div>
                         <div class="col-md-4 pb-0">
                             <label>Contact Number <span class="compulsory">*</span></label>
-                            <input class="form-control form-control-sm" 
+                            <input class="form-control form-control-sm"  formControlName="contactNumber"
                             placeholder="e.g. +65 91234567" />
+                            <errors [control]="appointmentForm.get('contactNumber')"></errors>
                         </div>
                     </div>
                        
@@ -115,7 +125,7 @@
                         </div>
                         <div class="col-md-8 pb-0">
                             <label>Remarks</label>
-                            <textarea class="form-control form-control-sm" ></textarea>
+                            <textarea class="form-control form-control-sm" formControlName="remarks" ></textarea>
                         </div>
                     </div>
                
@@ -125,7 +135,7 @@
                
                     <button class="btn btn-warning pull-left"  (click)="closeModalBoxCancel()" >Cancel</button>
                                         <!-- <button class="btn btn-large btn-brand-primary" (click)="onBtnSaveClicked()" [disabled]="!appointmentFormGroup.valid || !apptIsAvailable || isSaving || (hasDoubleAppointments && !userConfirmedWarning) "> -->
-                    <button class="btn btn-info pull-right"  [disabled]="!appointmentForm.valid "  (click)="closeModalBox()">
+                    <button class="btn btn-info pull-right"  [disabled]="!appointmentForm.valid "  (click)="createNewAppointment()">
                         <span *ngIf="!isSaving">Save Appointment</span>
                         <span *ngIf="isSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                         <span *ngIf="isSaving" class="sr-only"> Loading...</span>

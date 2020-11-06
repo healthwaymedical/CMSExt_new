@@ -7,6 +7,10 @@ import * as moment from 'moment';
 import { AbstractControl, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { AppointmentsFactoryService } from './appointment-factory.service';
+import { AppointmentRequest } from '../requests/appointmentRequest';
+import { DISPLAY_DATE_FORMAT } from '../constants/app.constants';
+import { ApiAppointmentService } from './api-appointment.service';
 
 
 @Injectable({
@@ -19,6 +23,8 @@ export class AppointmentFormService {
 
   constructor(
     private fb: FormBuilder,
+    private apptFactory: AppointmentsFactoryService,
+    private apiAppointmentsService :ApiAppointmentService
   ) {
     this.appointmentDetails = new BehaviorSubject<any>([]);
   }
@@ -39,8 +45,31 @@ export class AppointmentFormService {
     return confirm(confirmMsg);
   }
 
+  setAppointmentForApi(input, isReferral?) {
+    let appointment = input;
+    if (input instanceof FormGroup) {
+      appointment = this.apptFactory.createAppointment(input, 'FORMGROUP');
+    }
+    //
+    let appointmentRequest: AppointmentRequest = new AppointmentRequest(
+      appointment
+    );
+
+    // Set doctor id, if any
+    appointmentRequest.setDoctor(appointment.preferredDoctor);
+
+    return appointmentRequest;
+  }
 
 
+  validateAppointmentCreation(appointmentsFormGroup: FormGroup) {
+    let date = moment(appointmentsFormGroup.get('appointmentDate').value).format(
+      DISPLAY_DATE_FORMAT
+    );
+    let filter = {
+      CLINIC_ID_LIST: [appointmentsFormGroup.get('clinicId').value],
+    };
+  }
   getAvailableTimesDropDownList() {
     return this.availableTimesDropDownList;
   }
