@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.loginFormGroup = this.createLoginFormGroup();
   }
   ngOnInit() {
-    localStorage.clear();
+    
   }
 
 
@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   onClickLogin() {
+    localStorage.clear();
     this.username = this.loginFormGroup.get('userName').value;
     this.password = this.loginFormGroup.get('password').value;
     const user = new UserLogin(this.username, this.password);
@@ -66,9 +67,12 @@ export class LoginComponent implements OnInit {
     this.authSevice.getUser().subscribe(
       resp => {
         let { payload } = resp;
-        // console.log("Userdetails here ", JSON.stringify(payload));
+    
         localStorage.setItem('firstName', payload.firstName);
+        
         this.router.navigate(['/dashboard'])
+
+        
       },
       err => {
         this.alert=true;

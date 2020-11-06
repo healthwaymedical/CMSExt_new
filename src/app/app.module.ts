@@ -20,6 +20,9 @@ import { DefaultLayoutComponent } from './containers';
 import { LoginComponent } from './views/login/login.component';
 
 import { ModalModule} from 'ngx-bootstrap/modal';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];
@@ -42,6 +45,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthServiceService } from './services/auth-service.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AppointmentNewComponent } from './views/appointment-new/appointment-new.component';
+import { ErrorsComponent } from './views/errors/errors.component';
+import { UtilsService } from './services/utils.service';
 
 
 @NgModule({
@@ -60,7 +65,9 @@ import { AppointmentNewComponent } from './views/appointment-new/appointment-new
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    NgSelectModule
 
   ],
   declarations: [
@@ -70,16 +77,20 @@ import { AppointmentNewComponent } from './views/appointment-new/appointment-new
     LoginComponent,
 
     AppointmentNewComponent,
+
+    ErrorsComponent,
   ],
+  entryComponents: [AppointmentNewComponent],
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy
-  }, AuthServiceService, AuthGuard,
+  }, AuthServiceService, AuthGuard,UtilsService,
 {
   provide:HTTP_INTERCEPTORS,
   useClass:TokenInterceptorService,
   multi:true
-}],
-  bootstrap: [ AppComponent,AppointmentNewComponent ]
+},
+],
+  bootstrap: [ AppComponent, ]
 })
 export class AppModule { }

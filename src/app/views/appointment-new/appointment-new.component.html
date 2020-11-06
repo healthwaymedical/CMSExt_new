@@ -1,12 +1,141 @@
-<div class="modal-header">
-    <h4 class="modal-title pull-left">{{title}}</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModalBox()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
 
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-default" (click)="closeModalBox()">Save</button>
-  </div>
+
+  <div class="modal-header">
+    <h4 class="modal-title pull-left"> {{ title }}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModalBox()"><span aria-hidden="true">&times;</span></button>
+</div>
+
+  <div [formGroup]="appointmentForm" class="container-fluid h-100">
+    <div class="row p-2 pb-3">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+        
+                    <div class="row">
+                        <div class="col-md-4 pb-0 ">
+                            <label>Select Clinic<span class="compulsory">*</span></label>
+                            <ng-select class="p-0 form-control form-control-sm custom-select" [items]="clinics"   [hideSelected]="true" 
+                            bindLabel='name' bindValue='id' placeholder="Select Clinic" (change)="onChangeClinic($event)" >
+                        </ng-select>
+                        </div>
+                        <div class="col-md-4 pb-0">
+                            <label>Appointment Date</label>
+                            <input type="text"
+                            class="form-control"
+                            placeholder="DD/MM/YYYY"
+                            class="form-control form-control-sm"
+                            [bsConfig]="bsConfig"
+                            (bsValueChange)="onchangeAppointmentDate($event)"
+                            bsDatepicker
+                            formControlName="appointmentDate"
+                            >
+                            <errors [control]="appointmentForm.get('appointmentDate')"></errors>
+                        </div>
+                        <div class="col-md-4 pb-0">
+                            <label>Appointment Time</label>
+                            <ng-select class="p-0 form-control form-control-sm custom-select"
+                             [items]="availableTimesDropDownList"   [hideSelected]="true" 
+                             placeholder="Select Time" (change)="onChangeTime($event)" 
+                             [formControlName]="startTime"
+                             >
+                        </ng-select>
+                            <errors [control]="appointmentForm.get('appointmentDate')"></errors>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col pb-0 ">
+
+                            <div class="btn-toolbar float-right " role="toolbar " *ngIf="isedit" >
+                                <div class="btn-group " role="group ">
+                                    <button class="btn  margin btn-large btn-brand-secondary mr-2" >Cancel</button>
+                                                        <!-- <button class="btn btn-large btn-brand-primary" (click)="onBtnSaveClicked()" [disabled]="!appointmentFormGroup.valid || !apptIsAvailable || isSaving || (hasDoubleAppointments && !userConfirmedWarning) "> -->
+                                    <button class="btn margin btn-large btn-brand-primary" >
+                                        <span *ngIf="!isSaving">Update Appointment</span>
+                                        <span *ngIf="isSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        <span *ngIf="isSaving" class="sr-only"> Loading...</span>
+                                    </button>
+                                </div>
+                            </div>
+        
+                        </div>
+                    </div>
+                
+                    <div class="row" *ngIf="!isedit">
+                        <div class="col-md-4 pb-0">
+                            <label>Patient Name</label>
+                         <input class="form-control form-control-sm"
+                         placeholder="patient Name" formControlName="name" />
+
+                            <errors [control]="appointmentForm.get('name')"></errors>
+                        </div>
+                        <div class="col-md-4 pb-0">
+                            <label>Identification Type</label>
+                        <ng-select class="p-0 form-control form-control-sm custom-select  custom-select-extra-medium-width" [items]="idTypes"
+                     bindLabel="label" bindValue="value" placeholder="Select Identification Type" 
+                        value="idType"  [clearable]=false>
+                    </ng-select>
+                        </div>
+                        <div class="col-md-4 pb-0">
+                            <label>Identification Number</label>
+                            <input class="form-control form-control-sm"   placeholder="NRIC/FIN NO." />
+                        </div>
+                    </div>
+          
+
+            
+
+
+                    <div class="row" *ngIf="!isedit">
+                  
+                        <div class="col-md-4 pb-0">
+                            <label>SerialHi</label>
+                            <input class="form-control form-control-sm" placeholder="Enter Serial Hi" formControlName="patientIdentifier" />
+                            <errors [control]="appointmentForm.get('patientIdentifier')"></errors>
+                        </div>
+                        
+                        <div class="col-md-4 pb-0">
+                            <label>Select Mobile/Home<span class="compulsory">*</span></label>
+                                   <ng-select class="p-0 form-control  form-control-sm custom-select  custom-select-extra-medium-width" [items]="phoneType"
+                     bindLabel="value" bindValue="value" placeholder="Select Mobile/Home" 
+                        value="value"  [clearable]=false>
+                    </ng-select>
+                        </div>
+                        <div class="col-md-4 pb-0">
+                            <label>Contact Number <span class="compulsory">*</span></label>
+                            <input class="form-control form-control-sm" 
+                            placeholder="e.g. +65 91234567" />
+                        </div>
+                    </div>
+                       
+                    <div class="row" *ngIf="!isedit">
+                   
+                        <div class="col-md-4 pb-0">
+                            <label>Next Appointment <span class="compulsory">*</span></label>
+                            <input type="text" class="form-control form-control-sm" [value]="nextAppointment" readonly>
+                        </div>
+                        <div class="col-md-8 pb-0">
+                            <label>Remarks</label>
+                            <textarea class="form-control form-control-sm" ></textarea>
+                        </div>
+                    </div>
+               
+                </div>
+            
+                <div class="modal-footer">
+               
+                    <button class="btn btn-warning pull-left"  (click)="closeModalBoxCancel()" >Cancel</button>
+                                        <!-- <button class="btn btn-large btn-brand-primary" (click)="onBtnSaveClicked()" [disabled]="!appointmentFormGroup.valid || !apptIsAvailable || isSaving || (hasDoubleAppointments && !userConfirmedWarning) "> -->
+                    <button class="btn btn-info pull-right"  [disabled]="!appointmentForm.valid "  (click)="closeModalBox()">
+                        <span *ngIf="!isSaving">Save Appointment</span>
+                        <span *ngIf="isSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="isSaving" class="sr-only"> Loading...</span>
+                    </button>
+               
+            </div>
+            </div>  
+         
+
+        </div>
+   
+    </div>
+</div>

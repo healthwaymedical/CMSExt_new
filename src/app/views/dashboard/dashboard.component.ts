@@ -26,8 +26,12 @@ export class DashboardComponent implements OnInit {
     const initialState = {
       title: 'New Appointment'
     };
-    this.modalRef = this.modalService.show(AppointmentNewComponent, {initialState});
-    // this.modalRef.content.closeBtnName = 'Close';
+
+    this.modalService.show(AppointmentNewComponent, {
+      initialState,
+      class: 'modal-lg',
+      backdrop: 'static',
+    });
   }
 
 }
