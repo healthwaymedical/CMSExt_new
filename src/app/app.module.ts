@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {TokenInterceptorService} from './services/token-interceptor.service';
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -20,6 +19,7 @@ import { DefaultLayoutComponent } from './containers';
 
 import { LoginComponent } from './views/login/login.component';
 
+import { ModalModule} from 'ngx-bootstrap/modal';
 const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];
@@ -41,6 +41,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthServiceService } from './services/auth-service.service';
 import { AuthGuard } from './guards/auth.guard';
+import { AppointmentNewComponent } from './views/appointment-new/appointment-new.component';
 
 
 @NgModule({
@@ -59,7 +60,7 @@ import { AuthGuard } from './guards/auth.guard';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-
+    ModalModule.forRoot()
 
   ],
   declarations: [
@@ -67,6 +68,8 @@ import { AuthGuard } from './guards/auth.guard';
     ...APP_CONTAINERS,
 
     LoginComponent,
+
+    AppointmentNewComponent,
   ],
   providers: [{
     provide: LocationStrategy,
@@ -77,6 +80,6 @@ import { AuthGuard } from './guards/auth.guard';
   useClass:TokenInterceptorService,
   multi:true
 }],
-  bootstrap: [ AppComponent ]
+  bootstrap: [ AppComponent,AppointmentNewComponent ]
 })
 export class AppModule { }
