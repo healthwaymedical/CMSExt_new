@@ -52,5 +52,13 @@ export class ApiAppointmentService {
     );
   }
 
+
+  
+
+  remove(appointmentId:any): Observable<HttpResponseBody>{  
+
+    return this.http.post<HttpResponseBody>(`${this.API_URL}/cms-dua/appointment/remove/${appointmentId}`,{});
+  }
+
 }
 

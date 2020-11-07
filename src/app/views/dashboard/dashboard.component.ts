@@ -113,6 +113,20 @@ export class DashboardComponent implements OnInit {
 
   deleteAppointment(appointment) {
     console.log("Appointment is here ", JSON.stringify(appointment));
+    if (this.confirmDelete()) {
+      this.apiAppointmentService
+        .remove(appointment.id)
+        .subscribe(res => {
+          console.log('Successfully deleted appointment');
+          this.getAppointmentsAll();
+        });
+    }
+
+  }
+
+  confirmDelete() {
+    const isDelete = confirm('Delete appointment?');
+    return isDelete;
   }
   openModalAppointmentNew() {
     const initialState = {
