@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{title}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="closeModalBox()">
+        <span arial-hidden="true">&times;</span>
+    </button>
+
+</div>
+<div class="modal-body" [formGroup]="appointmentEditForm">
+    <div class="alert alert-danger" role="alert" *ngIf="alertWarning">
+        {{alertMessage}}
+
+    </div>
+    <div class="alert alert-success" role="alert" *ngIf="alertSuccess">
+        {{alertMessage}}
+    </div>
+    <label> Appointment Date</label>
+    <input type="text" class="form-control" placeholder="DD/MM/YYYY" class="form-control datepicker"
+        [bsConfig]="bsConfig" (bsValueChange)="onchangeAppointmentDate($event)" bsDatepicker
+        formControlName="appointmentDate">
+    <label> Appointment TIme</label>
+
+    <ng-select class="p-0 form-control " [items]="availableTimesDropDownList" [hideSelected]="true"
+        placeholder="Select Time" (change)="onTimeSelect($event)" formControlName="appointmentTime">
+    </ng-select>
+
+
+</div>
+<div class="modal-footer">
+
+
+
+
+
+    <button type="button" class="btn btn-warning pull-left" aria-label="Close" (click)="closeModalBox()">
+        Cancel
+    </button>
+
+    <button type="button" class="btn btn-primary pull-right" [disabled]="!appointmentEditForm.valid " aria-label="Close"
+        (click)="onSaveClick()">
+        Update
+    </button>
+</div>

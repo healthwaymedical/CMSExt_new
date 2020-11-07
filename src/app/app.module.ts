@@ -11,7 +11,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
 };
 
-
 import { AppComponent } from './app.component';
 
 // Import containers
@@ -47,6 +46,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AppointmentNewComponent } from './views/appointment-new/appointment-new.component';
 import { ErrorsComponent } from './views/errors/errors.component';
 import { UtilsService } from './services/utils.service';
+import { AppointmentEditComponent } from './views/appointment-edit/appointment-edit.component';
 
 
 @NgModule({
@@ -79,8 +79,13 @@ import { UtilsService } from './services/utils.service';
     AppointmentNewComponent,
 
     ErrorsComponent,
+
+    AppointmentEditComponent,
   ],
-  entryComponents: [AppointmentNewComponent],
+  entryComponents: [
+    AppointmentNewComponent,
+    AppointmentEditComponent
+  ],
   providers: [{
     provide: LocationStrategy,
     useClass: HashLocationStrategy

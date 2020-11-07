@@ -178,9 +178,4 @@ export class AppointmentFormService {
     );
   }
 
-  alertSuccessfulAppointment() {
-    let msg = 'Appointment updated successfully.';
-    alert(msg);
-  }
-
 }

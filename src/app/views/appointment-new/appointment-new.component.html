@@ -11,6 +11,7 @@
     <button type="button" class="close pull-right" aria-label="Close" (click)="closeModalBox()"><span aria-hidden="true">&times;</span></button>
 </div>
 
+
   <div [formGroup]="appointmentForm" class="container-fluid h-100">
     <div class="row p-2 pb-3">
         <div class="col-12">
@@ -21,7 +22,9 @@
                         <div class="col-md-4 pb-0 ">
                             <label>Select Clinic<span class="compulsory">*</span></label>
                             <ng-select class="p-0 form-control form-control-sm custom-select" [items]="clinics"   [hideSelected]="true" 
-                            bindLabel='name' bindValue='id' placeholder="Select Clinic" (change)="onChangeClinic($event)" >
+                            bindLabel='name' bindValue='id'
+                           
+                             placeholder="Select Clinic" (change)="onChangeClinic($event)" >
                         </ng-select>
                         </div>
                         <div class="col-md-4 pb-0">
@@ -51,25 +54,8 @@
                             <errors [control]="appointmentForm.get('appointmentTime')"></errors>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col pb-0 ">
-
-                            <div class="btn-toolbar float-right " role="toolbar " *ngIf="isedit" >
-                                <div class="btn-group " role="group ">
-                                    <button class="btn  margin btn-large btn-brand-secondary mr-2" >Cancel</button>
-                                                        <!-- <button class="btn btn-large btn-brand-primary" (click)="onBtnSaveClicked()" [disabled]="!appointmentFormGroup.valid || !apptIsAvailable || isSaving || (hasDoubleAppointments && !userConfirmedWarning) "> -->
-                                    <button class="btn margin btn-large btn-brand-primary" >
-                                        <span *ngIf="!isSaving">Update Appointment</span>
-                                        <span *ngIf="isSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        <span *ngIf="isSaving" class="sr-only"> Loading...</span>
-                                    </button>
-                                </div>
-                            </div>
-        
-                        </div>
-                    </div>
                 
-                    <div class="row" *ngIf="!isedit">
+                    <div class="row" >
                         <div class="col-md-4 pb-0">
                             <label>Patient Name</label>
                          <input class="form-control form-control-sm"
@@ -79,10 +65,16 @@
                         </div>
                         <div class="col-md-4 pb-0">
                             <label>Identification Type</label>
-                        <ng-select class="p-0 form-control form-control-sm custom-select  custom-select-extra-medium-width" [items]="idTypes"
-                     bindLabel="label" bindValue="value" placeholder="Select Identification Type" 
-                        value="idType" placeholder="Select Time" formControlName="idType"  [clearable]=false> 
-                    </ng-select>
+                            <ng-select class="p-0 form-control form-control-sm custom-select"
+                            [items]="idTypes" bindLabel="label" bindValue="value"  [hideSelected]="true" 
+                            placeholder="Select Id Type" formControlName="idType"
+                            >
+                       </ng-select>
+                
+
+               
+
+
                         </div>
                         <div class="col-md-4 pb-0">
                             <label>Identification Number</label>
@@ -94,7 +86,7 @@
             
 
 
-                    <div class="row" *ngIf="!isedit">
+                    <div class="row">
                   
                         <div class="col-md-4 pb-0">
                             <label>SerialHi</label>
@@ -117,12 +109,12 @@
                         </div>
                     </div>
                        
-                    <div class="row" *ngIf="!isedit">
+                    <div class="row">
                    
-                        <div class="col-md-4 pb-0">
+                        <!-- <div class="col-md-4 pb-0">
                             <label>Next Appointment <span class="compulsory">*</span></label>
                             <input type="text" class="form-control form-control-sm" [value]="nextAppointment" readonly>
-                        </div>
+                        </div> -->
                         <div class="col-md-8 pb-0">
                             <label>Remarks</label>
                             <textarea class="form-control form-control-sm" formControlName="remarks" ></textarea>

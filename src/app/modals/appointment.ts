@@ -7,6 +7,7 @@ import {
   export interface Appointment {
     id: string;
     patientId: string;
+    startDate:string;
     clinicId: string;
     preferredDoctor: string;
     referringDoctorId: string;

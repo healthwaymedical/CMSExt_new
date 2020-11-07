@@ -24,7 +24,6 @@ import {
 } from '../modals/appointment';
 import * as moment from 'moment';
 
-
 let doctorColorMap: Array<DoctorColorMap>;
 @Injectable({
   providedIn: 'root',
@@ -33,6 +32,9 @@ export class AppointmentsFactoryService {
   constructor(
     private utilsService: UtilsService
   ) { }
+
+
+
 
 
 
@@ -56,6 +58,7 @@ export class AppointmentsFactoryService {
       referringClinicId: '',
       purposeOfVisit: null,
       remarks: '',
+      startDate:'',
       reminderDate: null,
       visitDate: null,
       duration: 0,

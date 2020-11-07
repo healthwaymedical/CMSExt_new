@@ -24,7 +24,7 @@ export class AppointmentNewComponent implements OnInit {
   maxDate: Date;
   appointmentForm: FormGroup;
   isSaving = false;
-  isedit=false;
+
   clinics: Array<Clinic>;
   idTypes:Array<IdTypes>;
   phoneType=[];
@@ -41,27 +41,6 @@ preRegistration:PreRegistration;
 alert:boolean=false;
 success:boolean=false;
 alertMessage:string;
-// {
-//   "clinicId": "5baae28d93bc1661aa7b1aee",
-//   "name": "anil",
-//   "patientIdentifier": "11111111",
-//   "contactNumber": {
-//     "number": "+60175686672"
-//   },
-//   "userId": {
-//     "idType": "OTHER",
-//     "number": "231233"
-//   },
-//   "preRegistration": {
-//     "purposeOfVisit": "Mobile Consultation",
-//     "clinicCode": "KWSC",
-//     "type": "APPOINTMENT",
-//     "expectedArrivalTime": "09-11-2020T22:45"
-//   } 
-// }
-
-
-
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -73,12 +52,13 @@ alertMessage:string;
 
       this.minDate = new Date();
       this.maxDate = new Date();
-      this.minDate.setDate(this.minDate.getDate() - 1);
-      this.maxDate.setDate(this.maxDate.getDate() + 7);
+      this.minDate.setDate(this.minDate.getDate() - 0);
+      this.maxDate.setDate(this.maxDate.getDate() + 90);
       this.appointmentForm = this.createAppointmentFormGroup();
     }
 
   ngOnInit() {
+ 
 this.configureDatePicker();
 this.populateData();
 this.getTimeSlots();
@@ -278,19 +258,6 @@ insertAppointment(){
     false
   );
 
-//   this.clinicId=localStorage.getItem("clinicId");
-// this.name=this.appointmentForm.get('name').value;
-// this.patientIdentifier=this.appointmentForm.get('patientIdentifier').value;
-// this.contactNumber.number=this.appointmentForm.get('contactNumber').value;
-// this.userId.idType=this.appointmentForm.get('idType').value;
-// this.userId.number=this.appointmentForm.get('idNumber').value;
-// this.preRegistration.purposeOfVisit=="";
-// this.preRegistration.clinicCode==localStorage.getItem("clinicCode");
-// this.preRegistration.type=="APPOINTMENT";
-// this.preRegistration.expectedArrivalTime==this.appointmentForm.get('appointmentDate').value+"T"+localStorage.getItem("appointmentTime");
-// // const appointmentpayload= new Appointment(
-//   this.clinicId, this.name,this.contactNumber, this.userId,this.preRegistration);
-// preRegistration:PreRegistration
 }
 
 setFormGroupForSaveApi() {
@@ -306,7 +273,7 @@ setFormGroupForSaveApi() {
 createNewAppointment() {
   const appointment = this.setFormGroupForSaveApi();
 
-  console.log("here is appointment data", JSON.stringify(appointment));
+
   appointment.preRegistration.expectedArrivalTime= moment(this.appointmentForm.get('appointmentDate').value).format(
     DISPLAY_DATE_FORMAT
   )+"T"+localStorage.getItem("appointmentTime");
@@ -317,7 +284,7 @@ createNewAppointment() {
 
       this.success=true;
       this.alertMessage="APPOINTMENT CREATED SUCCESSFULLY";
-      this.delay(3000).then(any=>{
+      this.delay(2000).then(any=>{
         this.success=false;
 
    this.bsModalRef.hide();
@@ -327,7 +294,7 @@ createNewAppointment() {
     err => {
       this.alert=true;
       this.alertMessage=err;
-      this.delay(3000).then(any=>{
+      this.delay(2000).then(any=>{
         this.alert=false;
       });
       this.isSaving = false;

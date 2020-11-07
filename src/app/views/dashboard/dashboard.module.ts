@@ -1,19 +1,24 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
-
+import { CommonModule } from "@angular/common";
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
-
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { NgSelectModule } from '@ng-select/ng-select';
 @NgModule({
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     DashboardRoutingModule,
     ChartsModule,
     BsDropdownModule,
-    ButtonsModule.forRoot()
+    CommonModule,
+    ButtonsModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    NgSelectModule
   ],
   declarations: [ DashboardComponent ]
 })
