@@ -50,6 +50,13 @@ import { AppointmentEditComponent } from './views/appointment-edit/appointment-e
 import { AppointmentViewComponent } from './views/appointment-view/appointment-view.component';
 
 
+import { CommonModule } from '@angular/common';
+
+// import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -69,6 +76,11 @@ import { AppointmentViewComponent } from './views/appointment-view/appointment-v
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
     NgSelectModule,
+    CommonModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
     
 
   ],
@@ -82,7 +94,7 @@ import { AppointmentViewComponent } from './views/appointment-view/appointment-v
 
     ErrorsComponent,
 
-    AppointmentEditComponent,
+    AppointmentEditComponent
   ],
   entryComponents: [
     AppointmentNewComponent,

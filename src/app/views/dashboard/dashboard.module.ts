@@ -9,6 +9,12 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AppointmentViewComponent } from '../appointment-view/appointment-view.component';
+
+// import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+// import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   imports: [
     FormsModule,
@@ -19,7 +25,11 @@ import { AppointmentViewComponent } from '../appointment-view/appointment-view.c
     CommonModule,
     ButtonsModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    NgSelectModule
+    NgSelectModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
   declarations: [ DashboardComponent,
     AppointmentViewComponent ]

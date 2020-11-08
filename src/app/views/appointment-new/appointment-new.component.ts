@@ -12,6 +12,7 @@ import { DoctorAvailableSlots, DateTimeSlots, ContactNumber, UserId, PreRegistra
 import { UtilsService } from '../../services/utils.service';
 
 import { Appointment } from '../../modals/appointment';
+import { SharedService } from '../../services/shared.service';
 @Component({
   selector: 'app-appointment-new',
   templateUrl: './appointment-new.component.html',
@@ -47,7 +48,8 @@ alertMessage:string;
     private fb: FormBuilder,
     private appointmentsFormService:AppointmentFormService,
     private apiAppointmentService: ApiAppointmentService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    private sharedService:SharedService,
     ) {
 
       this.minDate = new Date();
@@ -290,6 +292,7 @@ createNewAppointment() {
    this.bsModalRef.hide();
       });
       console.log('APPOINTMENT CREATED SUCCESSFULLY');
+      this.sharedService.sendClickEvent();
     },
     err => {
       this.alert=true;

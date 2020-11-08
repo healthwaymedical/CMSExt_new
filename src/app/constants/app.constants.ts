@@ -29,10 +29,14 @@ export const API_DOMAIN = [
   export const INVENTORY_DATE_FORMAT = 'YYYY-MM-DD';
   export const DB_FULL_DATE_FORMAT = 'DD-MM-YYYYTHH:mm:ss';
   export const DB_FULL_DATE_FORMAT_ZERO_SECOND = 'DD-MM-YYYYTHH:mm:00';
+
+
+
   export const DB_FULL_DATE_FORMAT_NO_SECOND = 'DD-MM-YYYYTHH:mm';
   export const DB_FULL_DATE_TIMEZONE = 'ddd MMM DD YYYY HH:mm:ss ZZ';
   export const DB_FULL_DATE_TIMEZONE_NO_SPACE = 'YYYY-MM-DDTHH:mm:ss.SSS';
   export const DB_FULL_DATE_TIMEZONE_NO_SPACE_REVERSE = 'DD-MM-YYYYTHH:mm:ss.SSS';
+  export const DB_FULL_DATE_TIMEZONE_NO_SPACE_REVERSEC = 'YYYY-MM-DDTHH:mm:ss.sssZ';
   export const DB_FULL_DATE_TIMEZONE_Z = 'YYYY-MM-DDTHH:mm:ssZ';
   export const DB_VISIT_DATE_FORMAT = 'DD-MM-YYYYT00:00:00';
   export const DB_VISIT_DATE_FORMAT_NO_SECOND = 'DD-MM-YYYYT00:00';

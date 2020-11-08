@@ -5,7 +5,8 @@ import { DoctorAvailableSlots, DateTimeSlots, Appointment } from '../../modals/a
 import { BsModalService, BsModalRef, } from 'ngx-bootstrap/modal'
 import { ApiAppointmentService } from '../../services/api-appointment.service';
 import * as moment from 'moment';
-import { DISPLAY_DATE_FORMAT, DISPLAY_TIME_NO_SECONDS_24_FORMAT } from '../../constants/app.constants';
+import { DISPLAY_DATE_FORMAT, DISPLAY_TIME_NO_SECONDS_24_FORMAT, DISPLAY_DATE_TIME_NO_SECONDS_FORMAT, DISPLAY_DATE_TIME, DB_FULL_DATE_FORMAT } from '../../constants/app.constants';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-appointment-edit',
@@ -14,7 +15,8 @@ import { DISPLAY_DATE_FORMAT, DISPLAY_TIME_NO_SECONDS_24_FORMAT } from '../../co
 })
 export class AppointmentEditComponent implements OnInit {
   title: string;
-  appointmentData: Appointment;
+  appointmentDate: string;
+  AppointmentId:string;
   bsConfig: Partial<BsDatepickerConfig>;
   minDate: Date;
   maxDate: Date;
@@ -27,7 +29,7 @@ export class AppointmentEditComponent implements OnInit {
   constructor(
     public bsModalRef: BsModalRef,
     private fb: FormBuilder,
-
+private sharedService:SharedService,
     private apiAppointmentService: ApiAppointmentService,
 
   ) {
@@ -40,19 +42,20 @@ export class AppointmentEditComponent implements OnInit {
 
   ngOnInit() {
 
-    this.setInitialAppointmentData(this.appointmentData);
+    this.setInitialAppointmentData(this.appointmentDate);
     this.configureDatePicker();
   }
 
 
-  setInitialAppointmentData(appointment: Appointment) {
-    console.log("Appointment is here ", JSON.stringify(appointment.startDate));
-    let timeOnly = moment(appointment.startDate).format(
+  setInitialAppointmentData(appointmentDate:string) {
+    console.log("Appointment is here ", JSON.stringify(appointmentDate));
+
+
+    let timeOnly = moment(appointmentDate,DISPLAY_DATE_TIME_NO_SECONDS_FORMAT).format(
       DISPLAY_TIME_NO_SECONDS_24_FORMAT
     );
 
-
-    let dateOnly = moment(appointment.startDate, DISPLAY_DATE_FORMAT).format(
+    let dateOnly = moment(appointmentDate, DISPLAY_DATE_FORMAT).format(
       DISPLAY_DATE_FORMAT
     );
 
@@ -193,7 +196,7 @@ export class AppointmentEditComponent implements OnInit {
       DISPLAY_DATE_FORMAT
     ) + "T" + this.appointmentEditForm.get('appointmentTime').value;
     //start
-    let appointmentId = this.appointmentData.id;
+    let appointmentId = this.AppointmentId;
     this.apiAppointmentService.updateAppointments(appointmentId, newDate).subscribe(
       res => {
         // this.allAppointments= res.payload;
@@ -206,7 +209,7 @@ export class AppointmentEditComponent implements OnInit {
           this.bsModalRef.hide();
         });
         console.log('APPOINTMENT CREATED SUCCESSFULLY');
-
+        this.sharedService.sendClickEvent();
       },
       err => {
         // this.alertService.error(JSON.stringify(err.error.message));
@@ -218,6 +221,7 @@ export class AppointmentEditComponent implements OnInit {
         console.log('APPOINTMENT CREATED SUCCESSFULLY');
       }
     );
+    
   }
 
 

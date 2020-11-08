@@ -11,7 +11,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker/ngx-bootstrap-datepicker';
 import { AppointmentEditComponent } from '../appointment-edit/appointment-edit.component';
 import { Clinic } from '../../modals/clinic';
-
+import { SharedService } from '../../services/shared.service';
+import { Subscription } from 'rxjs';
 
 
 
@@ -19,6 +20,7 @@ import { Clinic } from '../../modals/clinic';
   templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
+  clickEventSubscription: Subscription;
   token: string;
   name: string;
   appointmentDate: any;
@@ -32,10 +34,13 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private modalService: BsModalService,
-
+    private sharedService: SharedService,
     private apiAppointmentService: ApiAppointmentService,
 
   ) {
+    this.clickEventSubscription=this.sharedService.getClickEvent().subscribe(()=>{
+      this.getAppointmentsAll();
+    })
     this.minDate = new Date();
     this.maxDate = new Date();
     this.minDate.setDate(this.minDate.getDate() - 0);
@@ -60,6 +65,7 @@ export class DashboardComponent implements OnInit {
       localStorage.setItem('clinicId', selectedClinic.id);
       localStorage.setItem('clinicCode', selectedClinic.clinicCode);
       this.getAppointmentsAll();
+      this.sharedService.sendClickEvent();
     }
 
   }
@@ -75,7 +81,6 @@ export class DashboardComponent implements OnInit {
 
   }
   getAppointmentsAll() {
-
     let clinicId = localStorage.getItem("clinicId");
     let startDate = moment(this.minDate).format(
       DB_VISIT_DATE_FORMAT
@@ -141,10 +146,10 @@ export class DashboardComponent implements OnInit {
   }
 
   openModalAppointmentEdit(appointment: Appointment) {
-    console.log("sending this", JSON.stringify(appointment))
     const initialState = {
       title: 'Edit Appointment',
-      appointmentData: appointment
+      appointmentDate: appointment.startDate,
+      id: appointment.id
     };
 
     this.modalService.show(AppointmentEditComponent, {
