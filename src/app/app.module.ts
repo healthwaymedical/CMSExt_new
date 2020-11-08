@@ -55,7 +55,7 @@ import { CommonModule } from '@angular/common';
 // import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -77,6 +77,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
     BsDatepickerModule.forRoot(),
     NgSelectModule,
     CommonModule,
+    ToastrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory

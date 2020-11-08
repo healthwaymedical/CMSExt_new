@@ -171,11 +171,6 @@ export class AppointmentsFactoryService {
     appt.preRegistration.clinicCode = cliniccode;
     appt.preRegistration.expectedArrivalTime = moment(customisedInput.visitDate).format(DB_FULL_DATE_FORMAT_NO_SECOND);
     
-    
-    
-
-    
-  console.log("form for registration", JSON.stringify(appt));
   }
 
 

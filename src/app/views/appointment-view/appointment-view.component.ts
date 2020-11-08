@@ -21,6 +21,7 @@ import { ApiAppointmentService } from '../../services/api-appointment.service';
 import { AppointmentEditComponent } from '../appointment-edit/appointment-edit.component';
 import { BsModalService, } from 'ngx-bootstrap/modal'
 import { SharedService } from '../../services/shared.service';
+import { ToastrService } from 'ngx-toastr';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -57,6 +58,7 @@ export class AppointmentViewComponent implements OnInit {
 
   viewDate: Date = new Date();
   constructor(
+    private toastr: ToastrService,
     private modal: NgbModal,
     private modalService: BsModalService,
     private sharedService:SharedService,
@@ -92,7 +94,7 @@ export class AppointmentViewComponent implements OnInit {
   refresh: Subject<any> = new Subject();
  
   ngOnInit() {
-    console.log("here are all events", JSON.stringify(this.calendarAppointment$))
+
     
   }
 
@@ -157,10 +159,10 @@ export class AppointmentViewComponent implements OnInit {
         this.eventsArray=tempeventsArray;
         this.calendarAppointment$=tempeventsArray;
         this.refresh.next();
-        console.log("array of appointments", JSON.stringify(this.calendarAppointment$))
       },
       err => {
-        // this.alertService.error(JSON.stringify(err.error.message));
+        this.toastr.error(err.error.message)
+
       }
     );
   };
@@ -234,7 +236,7 @@ export class AppointmentViewComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
 
-    console.log("demo editable data", JSON.stringify(event));
+
 
     if(action=="Edited"){
 
@@ -242,7 +244,7 @@ export class AppointmentViewComponent implements OnInit {
 let dateone= moment(event.start, DB_FULL_DATE_FORMAT).format(
         DISPLAY_DATE_TIME_NO_SECONDS_FORMAT
       );
-      console.log("sending this", JSON.stringify(event))
+      
       const initialState = {
         title: 'Edit Appointment',
         appointmentDate: dateone,
@@ -259,7 +261,7 @@ let dateone= moment(event.start, DB_FULL_DATE_FORMAT).format(
         this.apiAppointmentService
           .remove(event.id)
           .subscribe(res => {
-            console.log('Successfully deleted appointment');
+     
             this.getAppointmentsAll();
             this.activeDayIsOpen=false;
             this.sharedService.sendClickEvent();
@@ -289,7 +291,6 @@ let dateone= moment(event.start, DB_FULL_DATE_FORMAT).format(
     });
     this.refresh.next();
 
-    console.log("total events", JSON.stringify(this.calendarAppointment$));
   }
 
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { AuthServiceService } from '../../services/auth-service.service';
 import { UserLogin } from '../../modals/user';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -11,8 +12,6 @@ import { UserLogin } from '../../modals/user';
 })
 // export class LoginComponent { }
 export class LoginComponent implements OnInit {
-  alert:boolean=false;
-  alertMessage:string;
   loginFormGroup: FormGroup;
   username: string;
   password: string;
@@ -20,7 +19,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authSevice: AuthServiceService,
     private fb: FormBuilder,
-
+    private toastr: ToastrService
   ) {
 
     this.loginFormGroup = this.createLoginFormGroup();
@@ -52,10 +51,8 @@ export class LoginComponent implements OnInit {
 
       },
       err => {
-        this.alert=true;
-      this.alertMessage=err.error.message;
-      this.delay(3000).then(any=>{this.alert=false;});
-      
+
+      this.toastr.error(err.error.message)
       }
     );
 
@@ -75,9 +72,7 @@ export class LoginComponent implements OnInit {
         
       },
       err => {
-        this.alert=true;
-        this.alertMessage=err.error.message;
-        this.delay(3000).then(any=>{this.alert=false;});
+   this.toastr.error(err.error.message);
       }
     );
   }

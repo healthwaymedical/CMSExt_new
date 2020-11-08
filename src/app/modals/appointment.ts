@@ -112,7 +112,6 @@ import {
     getTimeSlotsByDate(date) {
       let timeSlotFound = this.dateTimeSlots.find(
         (dateTimeSlot: DateTimeSlots) => {
-          console.log('date; ', date);
           return dateTimeSlot.getDate() === date;
         }
       );

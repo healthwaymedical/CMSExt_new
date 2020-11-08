@@ -7,6 +7,7 @@ import { ApiAppointmentService } from '../../services/api-appointment.service';
 import * as moment from 'moment';
 import { DISPLAY_DATE_FORMAT, DISPLAY_TIME_NO_SECONDS_24_FORMAT, DISPLAY_DATE_TIME_NO_SECONDS_FORMAT, DISPLAY_DATE_TIME, DB_FULL_DATE_FORMAT } from '../../constants/app.constants';
 import { SharedService } from '../../services/shared.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-appointment-edit',
@@ -23,15 +24,12 @@ export class AppointmentEditComponent implements OnInit {
   appointmentEditForm: FormGroup;
   availableTimes: Array<DoctorAvailableSlots>;
   availableTimesDropDownList: Array<string>;
-  alertWarning: boolean = false;
-  alertSuccess: boolean = false;
-  alertMessage: string;
   constructor(
     public bsModalRef: BsModalRef,
     private fb: FormBuilder,
 private sharedService:SharedService,
     private apiAppointmentService: ApiAppointmentService,
-
+    private toastr: ToastrService
   ) {
     this.minDate = new Date();
     this.maxDate = new Date();
@@ -48,7 +46,7 @@ private sharedService:SharedService,
 
 
   setInitialAppointmentData(appointmentDate:string) {
-    console.log("Appointment is here ", JSON.stringify(appointmentDate));
+
 
 
     let timeOnly = moment(appointmentDate,DISPLAY_DATE_TIME_NO_SECONDS_FORMAT).format(
@@ -136,7 +134,6 @@ private sharedService:SharedService,
           this.availableTimes.push(doctorAvailableSlots);
         });
 
-        console.log('availableTimes: ', this.availableTimes);
         this.populateAvailableTimesDropdownList();
       },
       err => {
@@ -159,7 +156,6 @@ private sharedService:SharedService,
       );
     });
 
-    console.log("here is timeslots", JSON.stringify(this.availableTimesDropDownList));
   }
 
   mergeArray(array1, array2) {
@@ -200,25 +196,13 @@ private sharedService:SharedService,
     this.apiAppointmentService.updateAppointments(appointmentId, newDate).subscribe(
       res => {
         // this.allAppointments= res.payload;
-
-        this.alertSuccess = true;
-        this.alertMessage = "APPOINTMENT UPDATED SUCCESSFULLY";
-        this.delay(2000).then(any => {
-          this.alertSuccess = false;
-
-          this.bsModalRef.hide();
-        });
-        console.log('APPOINTMENT CREATED SUCCESSFULLY');
+this.toastr.success("Appointment Updated Successfully ");
+        this.bsModalRef.hide();
         this.sharedService.sendClickEvent();
       },
       err => {
-        // this.alertService.error(JSON.stringify(err.error.message));
-        this.alertWarning = true;
-        this.alertMessage = err.error.message;
-        this.delay(2000).then(any => {
-          this.alertSuccess = false;
-        });
-        console.log('APPOINTMENT CREATED SUCCESSFULLY');
+ 
+        this.toastr.error(err.error.message)
       }
     );
     

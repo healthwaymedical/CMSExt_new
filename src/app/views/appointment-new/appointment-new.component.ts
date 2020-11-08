@@ -13,6 +13,7 @@ import { UtilsService } from '../../services/utils.service';
 
 import { Appointment } from '../../modals/appointment';
 import { SharedService } from '../../services/shared.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-appointment-new',
   templateUrl: './appointment-new.component.html',
@@ -39,9 +40,7 @@ patientIdentifier:string;
 contactNumber: ContactNumber;
 userId:UserId;
 preRegistration:PreRegistration;
-alert:boolean=false;
-success:boolean=false;
-alertMessage:string;
+
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -50,6 +49,7 @@ alertMessage:string;
     private apiAppointmentService: ApiAppointmentService,
     private utilsService: UtilsService,
     private sharedService:SharedService,
+    private toastr: ToastrService
     ) {
 
       this.minDate = new Date();
@@ -188,11 +188,10 @@ getTimeSlots(){
         this.availableTimes.push(doctorAvailableSlots);
       });
 
-      console.log('availableTimes: ', this.availableTimes);
       this.populateAvailableTimesDropdownList();
     },
     err => {
-      // this.alertService.error(JSON.stringify(err.error.message));
+     this.toastr.error(err.error.message)
     }
   );
 }
@@ -211,7 +210,6 @@ populateAvailableTimesDropdownList() {
     );
   });
 
-console.log("here is timeslots", JSON.stringify( this.availableTimesDropDownList));
 }
 getVisitTime() {
   const date: Date = this.appointmentForm.get('appointmentDate').value as Date;
@@ -283,25 +281,13 @@ createNewAppointment() {
     res => {
  
       this.isSaving = false;
-
-      this.success=true;
-      this.alertMessage="APPOINTMENT CREATED SUCCESSFULLY";
-      this.delay(2000).then(any=>{
-        this.success=false;
-
+this.toastr.success("APPOINTMENT CREATED SUCCESSFULLY");
    this.bsModalRef.hide();
-      });
-      console.log('APPOINTMENT CREATED SUCCESSFULLY');
       this.sharedService.sendClickEvent();
     },
     err => {
-      this.alert=true;
-      this.alertMessage=err;
-      this.delay(2000).then(any=>{
-        this.alert=false;
-      });
+this.toastr.error(err.error.message);
       this.isSaving = false;
-      // this.alertService.error(JSON.stringify(err));
      }
   );
 }
