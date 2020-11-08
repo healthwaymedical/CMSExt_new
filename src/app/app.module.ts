@@ -47,6 +47,7 @@ import { AppointmentNewComponent } from './views/appointment-new/appointment-new
 import { ErrorsComponent } from './views/errors/errors.component';
 import { UtilsService } from './services/utils.service';
 import { AppointmentEditComponent } from './views/appointment-edit/appointment-edit.component';
+import { AppointmentViewComponent } from './views/appointment-view/appointment-view.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { AppointmentEditComponent } from './views/appointment-edit/appointment-e
     ReactiveFormsModule,
     ModalModule.forRoot(),
     BsDatepickerModule.forRoot(),
-    NgSelectModule
+    NgSelectModule,
+    
 
   ],
   declarations: [
@@ -84,7 +86,8 @@ import { AppointmentEditComponent } from './views/appointment-edit/appointment-e
   ],
   entryComponents: [
     AppointmentNewComponent,
-    AppointmentEditComponent
+    AppointmentEditComponent,
+    
   ],
   providers: [{
     provide: LocationStrategy,

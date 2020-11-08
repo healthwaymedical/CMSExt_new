@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { AppointmentViewComponent } from '../appointment-view/appointment-view.component';
 @NgModule({
   imports: [
     FormsModule,
@@ -20,6 +21,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     BsDatepickerModule.forRoot(),
     NgSelectModule
   ],
-  declarations: [ DashboardComponent ]
+  declarations: [ DashboardComponent,
+    AppointmentViewComponent ]
 })
 export class DashboardModule { }
