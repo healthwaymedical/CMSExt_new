@@ -17,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 export class AppointmentEditComponent implements OnInit {
   title: string;
   appointmentDate: string;
-  AppointmentId:string;
+  appointmentId:string;
   bsConfig: Partial<BsDatepickerConfig>;
   minDate: Date;
   maxDate: Date;
@@ -112,8 +112,9 @@ private sharedService:SharedService,
   getTimeSlots() {
     this.availableTimes = new Array<DoctorAvailableSlots>();
     let clinicId = localStorage.getItem("clinicId");
+    let clinicCode = localStorage.getItem("clinicCode");
     let appointmentDate = this.appointmentEditForm.get('appointmentDate').value;
-    this.apiAppointmentService.getTimeSlots(clinicId, appointmentDate).subscribe(
+    this.apiAppointmentService.getTimeSlots(clinicCode, appointmentDate).subscribe(
       res => {
         res.payload.filter(slot => slot.timeSlot.length > 0).forEach(slot => {
           let timeSlots = new Array<string>();
@@ -134,9 +135,11 @@ private sharedService:SharedService,
           this.availableTimes.push(doctorAvailableSlots);
         });
 
+        console.log('availableTimes: ', this.availableTimes);
         this.populateAvailableTimesDropdownList();
       },
       err => {
+        this.toastr.error(err.error.message)
         // this.alertService.error(JSON.stringify(err.error.message));
       }
     );
@@ -156,6 +159,7 @@ private sharedService:SharedService,
       );
     });
 
+    console.log("here is timeslots", JSON.stringify(this.availableTimesDropDownList));
   }
 
   mergeArray(array1, array2) {
@@ -192,7 +196,7 @@ private sharedService:SharedService,
       DISPLAY_DATE_FORMAT
     ) + "T" + this.appointmentEditForm.get('appointmentTime').value;
     //start
-    let appointmentId = this.AppointmentId;
+    let appointmentId = this.appointmentId;
     this.apiAppointmentService.updateAppointments(appointmentId, newDate).subscribe(
       res => {
         // this.allAppointments= res.payload;

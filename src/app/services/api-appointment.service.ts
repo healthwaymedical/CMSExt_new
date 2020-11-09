@@ -17,9 +17,13 @@ export class ApiAppointmentService {
 
   }
 
-  getTimeSlots(clinicId:any, appointmentDate:any): Observable<HttpResponseBody>{  
-    return this.http.post<HttpResponseBody>(`${this.API_URL}/cms-dua/appointment/available/time-slot/${clinicId}/${appointmentDate}`,
-    []);
+  getTimeSlots(clinicCode:any, appointmentDate:any): Observable<HttpResponseBody>{  
+    return this.http.post<HttpResponseBody>(`${this.API_URL}/cms-dua/patient/pre-registration/tele-consult/available/time-slot/${clinicCode}/${appointmentDate}`,
+    ["EXT_APP_DUMMY_MCR"]);
+
+    
+
+
   }
 
   getAppointments(clinicId:any, startDate:any, endDate:any): Observable<HttpResponseBody>{  
@@ -34,7 +38,7 @@ export class ApiAppointmentService {
 
   updateAppointments(appointmentId:any, newDate:any): Observable<HttpResponseBody>{  
     let obj={
-        "appointmenId": appointmentId,
+        "appointmentId": appointmentId,
         "action": "RESCHEDULED",
         "appointmentDate": newDate
   }

@@ -6,4 +6,10 @@
 export const environment = {
   production: false
 };
-export const baseUrl=`https://cmsapi.healthwaymedical.info`;
+// export const baseUrl=`https://cmsapi.healthwaymedical.info`;
+
+
+export const baseUrl=`https://mgmt.healthwaymedical.info`;
+
+
+

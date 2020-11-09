@@ -166,8 +166,9 @@ if(value==null || value==undefined){
 getTimeSlots(){
   this.availableTimes = new Array<DoctorAvailableSlots>();
   let clinicId=localStorage.getItem("clinicId");
+  let clinicCode=localStorage.getItem("clinicCode");
   let appointmentDate=localStorage.getItem("appointmentDate");
-  this.apiAppointmentService.getTimeSlots(clinicId, appointmentDate).subscribe(
+  this.apiAppointmentService.getTimeSlots(clinicCode, appointmentDate).subscribe(
     res => {
       res.payload.filter(slot => slot.timeSlot.length > 0).forEach(slot => {
         let timeSlots = new Array<string>();

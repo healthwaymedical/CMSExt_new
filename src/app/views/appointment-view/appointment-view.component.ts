@@ -248,7 +248,7 @@ let dateone= moment(event.start, DB_FULL_DATE_FORMAT).format(
       const initialState = {
         title: 'Edit Appointment',
         appointmentDate: dateone,
-        id:event.id
+        appointmentId:event.id
       };
   
       this.modalService.show(AppointmentEditComponent, {

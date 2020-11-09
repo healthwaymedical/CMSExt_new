@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
   private populateData() {
     this.clinics = CLINICS_ARRAY;
     localStorage.setItem('clinicId', CLINICS_ARRAY[0].id);
-
+    localStorage.setItem('clinicCode', CLINICS_ARRAY[0].clinicCode);
     this.selectedAttributes = CLINICS_ARRAY[0].id;
     this.getAppointmentsAll();
   }
@@ -149,7 +149,7 @@ export class DashboardComponent implements OnInit {
     const initialState = {
       title: 'Edit Appointment',
       appointmentDate: appointment.startDate,
-      id: appointment.id
+      appointmentId: appointment.id
     };
 
     this.modalService.show(AppointmentEditComponent, {
